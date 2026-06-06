@@ -16,7 +16,6 @@ namespace PomodoroWPF.ViewModels
         private readonly AchievementService _achievementService;
         private readonly PersistenceService _persistence;
         private readonly TrayManager? _tray;
-        private readonly AmbientSoundService? _ambientSound;
         private readonly AppSettings _settings;
 
         private PageType _currentPage = PageType.Home;
@@ -55,7 +54,6 @@ namespace PomodoroWPF.ViewModels
         public RelayCommand OpenStatsCommand { get; }
         public RelayCommand QuitCommand { get; }
         public RelayCommand ToggleFullscreenCommand { get; set; }
-        public RelayCommand ToggleAmbientSoundCommand { get; }
 
         public event Action? QuitRequested;
         public event Action? ToggleFullscreenRequested;
@@ -73,7 +71,6 @@ namespace PomodoroWPF.ViewModels
             AchievementService achievementService,
             PersistenceService persistence,
             TrayManager? tray,
-            AmbientSoundService? ambientSound,
             AppSettings settings)
         {
             Home = home;
@@ -86,7 +83,6 @@ namespace PomodoroWPF.ViewModels
             _achievementService = achievementService;
             _persistence = persistence;
             _tray = tray;
-            _ambientSound = ambientSound;
             _settings = settings;
 
             NavigateToHomeCommand = new RelayCommand(() => { CurrentPage = PageType.Home; Home.UpdateAll(); });
@@ -96,7 +92,6 @@ namespace PomodoroWPF.ViewModels
             OpenSettingsCommand = new RelayCommand(OpenSettings);
             OpenStatsCommand = new RelayCommand(OpenStats);
             QuitCommand = new RelayCommand(() => QuitRequested?.Invoke());
-            ToggleAmbientSoundCommand = new RelayCommand(ToggleAmbientSound);
             ToggleFullscreenCommand = new RelayCommand(() => ToggleFullscreenRequested?.Invoke());
 
             // Wire pomodoro completion
@@ -125,16 +120,13 @@ namespace PomodoroWPF.ViewModels
 
             // Check achievements
             string? achievement = _achievementService.CheckAchievements();
+
+            // Combine notifications to avoid tray balloon replacement
+            string message = $"\u25cf \u7b2c {_statsService.Today.CompletedPomodoros} \u4e2a\u756a\u8304\u5b8c\u6210\uff01";
+            string title = "\u756a\u8304\u949f";
             if (achievement != null)
-                _tray?.ShowNotification("\u2605 \u6210\u5c31\u89e3\u9501", $"\u606d\u559c\u83b7\u5f97\u6210\u5c31\uff1a{achievement}");
-
-            // Tray notification
-            _tray?.ShowNotification("\u756a\u8304\u949f",
-                $"\u25cf \u7b2c {_statsService.Today.CompletedPomodoros} \u4e2a\u756a\u8304\u5b8c\u6210\uff01");
-
-            // Stop ambient sound during break
-            if (_settings.AmbientSoundEnabled)
-                _ambientSound?.Stop();
+                message += $"\n\u2605 \u6210\u5c31\u89e3\u9501\uff1a{achievement}";
+            _tray?.ShowNotification(title, message);
         }
 
         private void OnBreakCompleted()
@@ -150,10 +142,6 @@ namespace PomodoroWPF.ViewModels
                     dlg.ShowDialog();
                 });
             }
-
-            // Restart ambient sound when starting next work session
-            if (_settings.AmbientSoundEnabled && Countdown.StartCommand.CanExecute(null))
-                _ambientSound?.Start(_settings.AmbientSoundType);
         }
 
         private void OnTasksChanged()
@@ -195,30 +183,6 @@ namespace PomodoroWPF.ViewModels
             var dlg = new StatsWindow(Stats);
             dlg.Owner = MainWindow;
             dlg.ShowDialog();
-        }
-
-        private void ToggleAmbientSound()
-        {
-            if (!_settings.AmbientSoundEnabled || _ambientSound == null) return;
-
-            if (_ambientSound.IsPlaying)
-                _ambientSound.Stop();
-            else if (Countdown.IsRunning && !Countdown.IsBreakMode)
-                _ambientSound.Start(_settings.AmbientSoundType);
-        }
-
-        public void StartAmbientIfNeeded()
-        {
-            if (_settings.AmbientSoundEnabled && _ambientSound != null &&
-                Countdown.IsRunning && !Countdown.IsBreakMode)
-            {
-                _ambientSound.Start(_settings.AmbientSoundType);
-            }
-        }
-
-        public void StopAmbient()
-        {
-            _ambientSound?.Stop();
         }
 
         public void SaveAll()

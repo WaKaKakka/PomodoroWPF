@@ -33,11 +33,5 @@ namespace PomodoroWPF.Models
 
         [JsonPropertyName("daily_goal_pomodoros")]
         public int DailyGoalPomodoros { get; set; } = 8;
-
-        [JsonPropertyName("ambient_sound_enabled")]
-        public bool AmbientSoundEnabled { get; set; } = false;
-
-        [JsonPropertyName("ambient_sound_type")]
-        public string AmbientSoundType { get; set; } = "rain";
     }
 }

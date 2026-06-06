@@ -54,8 +54,29 @@ namespace PomodoroWPF.Services
             _store = persistence.LoadTasks();
             _currentTaskId = _store.CurrentTaskId;
 
+            // Subscribe to collection changes for auto-wiring PropertyChanged
+            Tasks.CollectionChanged += (s, e) =>
+            {
+                if (e.NewItems != null)
+                {
+                    foreach (PomodoroTask task in e.NewItems)
+                        task.PropertyChanged += OnTaskPropertyChanged;
+                }
+                if (e.OldItems != null)
+                {
+                    foreach (PomodoroTask task in e.OldItems)
+                        task.PropertyChanged -= OnTaskPropertyChanged;
+                }
+            };
+
             foreach (var task in _store.Tasks)
                 Tasks.Add(task);
+        }
+
+        private void OnTaskPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(PomodoroTask.IsCompleted))
+                NotifyCollectionChanged();
         }
 
         public PomodoroTask AddTask(string name, int estimatedPomodoros, Priority priority)
@@ -91,7 +112,6 @@ namespace PomodoroWPF.Services
             if (task == null) return;
 
             task.IsCompleted = true;
-            task.PropertyChanged += (s, e) => NotifyCollectionChanged();
             NotifyCollectionChanged();
             Save();
         }

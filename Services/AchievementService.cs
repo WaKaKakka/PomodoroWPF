@@ -38,37 +38,37 @@ namespace PomodoroWPF.Services
 
         public string? CheckAchievements()
         {
-            string? newlyUnlocked = null;
+            var newlyUnlocked = new List<string>();
 
             // First pomodoro
             if (TryUnlock("first_pomodoro",
                 () => _statsService.GetTotalPomodoros() >= 1))
-                newlyUnlocked = FormatAchievementName(GetAchievement("first_pomodoro"));
+                newlyUnlocked.Add(FormatAchievementName(GetAchievement("first_pomodoro")));
 
             // 4 in a day
             if (TryUnlock("four_in_day",
                 () => _statsService.Today.CompletedPomodoros >= 4))
-                newlyUnlocked = FormatAchievementName(GetAchievement("four_in_day"));
+                newlyUnlocked.Add(FormatAchievementName(GetAchievement("four_in_day")));
 
             // 7 day streak
             if (TryUnlock("streak_7",
                 () => _statsService.GetCurrentStreak() >= 7))
-                newlyUnlocked = FormatAchievementName(GetAchievement("streak_7"));
+                newlyUnlocked.Add(FormatAchievementName(GetAchievement("streak_7")));
 
             // 30 day streak
             if (TryUnlock("streak_30",
                 () => _statsService.GetCurrentStreak() >= 30))
-                newlyUnlocked = FormatAchievementName(GetAchievement("streak_30"));
+                newlyUnlocked.Add(FormatAchievementName(GetAchievement("streak_30")));
 
             // 100 total
             if (TryUnlock("total_100",
                 () => _statsService.GetTotalPomodoros() >= 100))
-                newlyUnlocked = FormatAchievementName(GetAchievement("total_100"));
+                newlyUnlocked.Add(FormatAchievementName(GetAchievement("total_100")));
 
-            if (newlyUnlocked != null)
+            if (newlyUnlocked.Count > 0)
                 _persistence.SaveAchievements(_achievements);
 
-            return newlyUnlocked;
+            return newlyUnlocked.Count > 0 ? string.Join("\n", newlyUnlocked) : null;
         }
 
         /// <summary>

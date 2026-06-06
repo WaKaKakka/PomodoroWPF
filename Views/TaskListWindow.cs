@@ -72,7 +72,7 @@ namespace PomodoroWPF.Views
                     {
                         _vm.AddNewTask(name, est, pri);
                         RefreshList();
-                        summaryText.Text = _vm.SummaryText;
+                        UpdateSummaryText();
                     }
                 }
             };
@@ -209,7 +209,7 @@ namespace PomodoroWPF.Views
                     var svc = Infrastructure.ServiceLocator.TryResolve<Services.TaskService>();
                     svc?.SetCurrentTask(task.Id);
                     RefreshList();
-                    summaryText.Text = _vm.SummaryText;
+                    UpdateSummaryText();
                 };
                 actions.Children.Add(selectBtn);
             }
@@ -228,7 +228,7 @@ namespace PomodoroWPF.Views
                     task.IsCompleted = false;
                 }
                 RefreshList();
-                summaryText.Text = _vm.SummaryText;
+                UpdateSummaryText();
             };
             actions.Children.Add(completeBtn);
 
@@ -236,9 +236,10 @@ namespace PomodoroWPF.Views
             deleteBtn.ToolTip = "\u5220\u9664";
             deleteBtn.MouseLeftButtonDown += (_, _) =>
             {
-                _vm.DeleteTaskCommand.Execute(task);
+                var svc = Infrastructure.ServiceLocator.TryResolve<Services.TaskService>();
+                svc?.DeleteTask(task.Id);
                 RefreshList();
-                summaryText.Text = _vm.SummaryText;
+                UpdateSummaryText();
             };
             actions.Children.Add(deleteBtn);
 
@@ -257,8 +258,18 @@ namespace PomodoroWPF.Views
                 var tc = ThemeManager.GetCurrent(App.CurrentSettings.Theme);
                 var summary = root.Children.OfType<StackPanel>().FirstOrDefault()
                     ?.Children.OfType<TextBlock>().FirstOrDefault(t => t.Text.Contains("/"));
-                PopulateTasks(panel, tc, summary!);
+                if (summary != null)
+                    PopulateTasks(panel, tc, summary);
             }
+        }
+
+        private void UpdateSummaryText()
+        {
+            var root = (Grid)Content;
+            var summary = root.Children.OfType<StackPanel>().FirstOrDefault()
+                ?.Children.OfType<TextBlock>().FirstOrDefault();
+            if (summary != null)
+                summary.Text = _vm.SummaryText;
         }
 
         private Border CreateSmallButton(string text, string color)

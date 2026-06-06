@@ -81,9 +81,10 @@ namespace PomodoroWPF.ViewModels
         {
             get
             {
-                int pos = _settings.CyclePosition % _settings.PomodorosBeforeLongBreak;
-                var dots = new char[_settings.PomodorosBeforeLongBreak * 2 - 1];
-                for (int i = 0; i < _settings.PomodorosBeforeLongBreak; i++)
+                int count = Math.Max(1, _settings.PomodorosBeforeLongBreak);
+                int pos = _settings.CyclePosition % count;
+                var dots = new char[count * 2 - 1];
+                for (int i = 0; i < count; i++)
                 {
                     dots[i * 2] = i < pos ? '\u25cf' : '\u25cb';
                     if (i * 2 + 1 < dots.Length) dots[i * 2 + 1] = ' ';
@@ -103,7 +104,7 @@ namespace PomodoroWPF.ViewModels
             _sound = sound;
             _settings = settings;
 
-            _inputMinutes = settings.WorkDurationMinutes;
+            _inputMinutes = Math.Max(1, settings.WorkDurationMinutes);
             _remainingSeconds = _inputMinutes * 60;
             _totalSeconds = _inputMinutes * 60;
 
@@ -141,9 +142,10 @@ namespace PomodoroWPF.ViewModels
                 RaisePropertyChanged(nameof(IsBreakMode));
                 RaisePropertyChanged(nameof(IsLongBreak));
             }
-            _inputMinutes = _settings.WorkDurationMinutes;
-            _remainingSeconds = _inputMinutes * 60;
-            _totalSeconds = _inputMinutes * 60;
+            int workMinutes = Math.Max(1, _settings.WorkDurationMinutes);
+            InputMinutes = workMinutes;
+            RemainingSeconds = workMinutes * 60;
+            TotalSeconds = workMinutes * 60;
             _workSessionSeconds = 0;
             RefreshDisplay();
         }
@@ -153,8 +155,8 @@ namespace PomodoroWPF.ViewModels
             if (_inputMinutes <= 0) return;
             _timer.Stop();
             IsRunning = false;
-            _remainingSeconds = _inputMinutes * 60;
-            _totalSeconds = _inputMinutes * 60;
+            RemainingSeconds = _inputMinutes * 60;
+            TotalSeconds = _inputMinutes * 60;
             _workSessionSeconds = 0;
             RefreshDisplay();
         }
@@ -199,11 +201,11 @@ namespace PomodoroWPF.ViewModels
 
                     _isBreakMode = true;
                     _isLongBreak = isLong;
-                    int breakMin = isLong ? _settings.LongBreakDurationMinutes : _settings.BreakDurationMinutes;
-                    _remainingSeconds = breakMin * 60;
-                    _totalSeconds = breakMin * 60;
+                    int breakMin = Math.Max(1, isLong ? _settings.LongBreakDurationMinutes : _settings.BreakDurationMinutes);
+                    RemainingSeconds = breakMin * 60;
+                    TotalSeconds = breakMin * 60;
                     _workSessionSeconds = 0;
-                    _inputMinutes = breakMin;
+                    InputMinutes = breakMin;
 
                     RaisePropertyChanged(nameof(IsBreakMode));
                     RaisePropertyChanged(nameof(IsLongBreak));
@@ -224,9 +226,10 @@ namespace PomodoroWPF.ViewModels
                 // Break completed
                 _isBreakMode = false;
                 _isLongBreak = false;
-                _inputMinutes = _settings.WorkDurationMinutes;
-                _remainingSeconds = _inputMinutes * 60;
-                _totalSeconds = _inputMinutes * 60;
+                int workMin = Math.Max(1, _settings.WorkDurationMinutes);
+                InputMinutes = workMin;
+                RemainingSeconds = workMin * 60;
+                TotalSeconds = workMin * 60;
 
                 RaisePropertyChanged(nameof(IsBreakMode));
                 RaisePropertyChanged(nameof(IsLongBreak));

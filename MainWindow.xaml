@@ -8,7 +8,7 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         Topmost="True"
-        Background="{StaticResource BgBrush}"
+        Background="{DynamicResource BgBrush}"
         Closing="Window_Closing"
         SourceInitialized="Window_SourceInitialized">
 
@@ -22,14 +22,14 @@
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
     </Window.Resources>
 
-    <Grid x:Name="RootGrid" Background="{StaticResource BgBrush}">
+    <Grid x:Name="RootGrid" Background="{DynamicResource BgBrush}">
 
         <!-- ==================== 首页 ==================== -->
         <Grid Visibility="{Binding IsHomeVisible, Converter={StaticResource BoolToVis}}">
             <!-- 右上角提示 -->
             <TextBlock Text="F11/ESC 切换全屏  ·  Ctrl+Q 退出"
                        FontFamily="Microsoft YaHei" FontSize="13"
-                       Foreground="{StaticResource TextMutedBrush}"
+                       Foreground="{DynamicResource TextMutedBrush}"
                        HorizontalAlignment="Right" VerticalAlignment="Top"
                        Margin="0,18,24,0"/>
 
@@ -38,41 +38,41 @@
                         Margin="0,-80,0,0">
                 <TextBlock Text="{Binding Home.CurrentTime}"
                            FontFamily="Microsoft YaHei" FontSize="140" FontWeight="Bold"
-                           Foreground="{StaticResource TextBrush}"
+                           Foreground="{DynamicResource TextBrush}"
                            HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding Home.CurrentDate}"
                            FontFamily="Microsoft YaHei" FontSize="22"
-                           Foreground="{StaticResource TextDimBrush}"
+                           Foreground="{DynamicResource TextDimBrush}"
                            HorizontalAlignment="Center" Margin="0,6,0,0"/>
                 <TextBlock Text="{Binding CurrentTaskDisplay}"
                            FontFamily="Microsoft YaHei" FontSize="20"
-                           Foreground="{StaticResource AccentBrush}"
+                           Foreground="{DynamicResource AccentBrush}"
                            HorizontalAlignment="Center" Margin="0,28,0,0"/>
                 <TextBlock Text="{Binding Home.TodayStatsText}"
                            FontFamily="Microsoft YaHei" FontSize="16"
-                           Foreground="{StaticResource TextDimBrush}"
+                           Foreground="{DynamicResource TextDimBrush}"
                            HorizontalAlignment="Center" Margin="0,12,0,0"/>
                 <TextBlock Text="{Binding Home.StreakText}"
                            FontFamily="Microsoft YaHei" FontSize="16" FontWeight="Bold"
-                           Foreground="{StaticResource AccentBrush}"
+                           Foreground="{DynamicResource AccentBrush}"
                            HorizontalAlignment="Center" Margin="0,8,0,0"/>
                 <TextBlock Text="{Binding Home.TaskSummaryText}"
                            FontFamily="Microsoft YaHei" FontSize="14"
-                           Foreground="{StaticResource TextDimBrush}"
+                           Foreground="{DynamicResource TextDimBrush}"
                            HorizontalAlignment="Center" Margin="0,8,0,0"/>
                 <!-- Daily Goal -->
-                <Border Background="{StaticResource CardBrush}" CornerRadius="6"
+                <Border Background="{DynamicResource CardBrush}" CornerRadius="6"
                         HorizontalAlignment="Center" Padding="16,8" Margin="0,12,0,0"
                         MinWidth="200">
                     <StackPanel>
                         <TextBlock Text="{Binding Home.DailyGoalText}"
                                    FontFamily="Microsoft YaHei" FontSize="14"
-                                   Foreground="{StaticResource TextDimBrush}"
+                                   Foreground="{DynamicResource TextDimBrush}"
                                    HorizontalAlignment="Center"/>
                         <ProgressBar Value="{Binding Home.DailyGoalProgress}" Maximum="1"
                                      Height="6" Margin="0,6,0,0"
-                                     Foreground="{StaticResource AccentBrush}"
-                                     Background="{StaticResource TextMutedBrush}"
+                                     Foreground="{DynamicResource AccentBrush}"
+                                     Background="{DynamicResource TextMutedBrush}"
                                      BorderThickness="0"/>
                     </StackPanel>
                 </Border>
@@ -81,22 +81,22 @@
             <!-- 右下角按钮 -->
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom"
                         Margin="0,0,40,40">
-                <local:RoundButton Text="任 务 列 表" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="任 务 列 表" ThemeRole="Card"
                                    FontSize="15" BtnWidth="170" BtnHeight="50"
                                    Command="{Binding OpenTaskListCommand}" Margin="0,0,0,14"/>
-                <local:RoundButton Text="统 计" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="统 计" ThemeRole="Card"
                                    FontSize="15" BtnWidth="170" BtnHeight="50"
                                    Command="{Binding OpenStatsCommand}" Margin="0,0,0,14"/>
-                <local:RoundButton Text="设 置" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="设 置" ThemeRole="Card"
                                    FontSize="15" BtnWidth="170" BtnHeight="50"
                                    Command="{Binding OpenSettingsCommand}" Margin="0,0,0,14"/>
-                <local:RoundButton Text="倒 计 时" BgColor="#f59e0b" FgColor="#000000"
+                <local:RoundButton Text="倒 计 时" ThemeRole="Accent"
                                    FontSize="16" BtnWidth="170" BtnHeight="54"
                                    Command="{Binding NavigateToCountdownCommand}" Margin="0,0,0,14"/>
-                <local:RoundButton Text="正 计 时" BgColor="#10b981" FgColor="#000000"
+                <local:RoundButton Text="正 计 时" ThemeRole="Success"
                                    FontSize="16" BtnWidth="170" BtnHeight="54"
                                    Command="{Binding NavigateToStopwatchCommand}" Margin="0,0,0,14"/>
-                <local:RoundButton Text="退 出" BgColor="#44403c" FgColor="#c8c3bc"
+                <local:RoundButton Text="退 出" ThemeRole="Muted"
                                    FontSize="13" BtnWidth="170" BtnHeight="38"
                                    Command="{Binding QuitCommand}" Margin="0,18,0,0"/>
             </StackPanel>
@@ -114,12 +114,12 @@
 
             <!-- Row 0: 左上返回 + 右上任务 -->
             <Grid Grid.Row="0">
-                <local:RoundButton Text="← 返回" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="← 返回" ThemeRole="Card"
                                    FontSize="14" BtnWidth="92" BtnHeight="40"
                                    Command="{Binding NavigateToHomeCommand}"
                                    HorizontalAlignment="Left" VerticalAlignment="Top"
                                    Margin="20,20,0,0"/>
-                <local:RoundButton Text="任 务" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="任 务" ThemeRole="Card"
                                    FontSize="14" BtnWidth="92" BtnHeight="40"
                                    Command="{Binding OpenTaskListCommand}"
                                    HorizontalAlignment="Right" VerticalAlignment="Top"
@@ -135,11 +135,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="CdModeLabel" Grid.Row="0" Text="{Binding Countdown.ModeLabel}"
                            FontFamily="Microsoft YaHei" FontSize="18" FontWeight="Bold"
-                           Foreground="{StaticResource AccentBrush}"
+                           Foreground="{DynamicResource AccentBrush}"
                            HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 <TextBlock Grid.Row="1" Text="{Binding Countdown.CycleDots}"
                            FontFamily="Microsoft YaHei" FontSize="20"
-                           Foreground="{StaticResource TextDimBrush}"
+                           Foreground="{DynamicResource TextDimBrush}"
                            HorizontalAlignment="Center" Margin="0,4,0,0"/>
                 <Viewbox Grid.Row="2" Stretch="Uniform"
                          HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -149,20 +149,20 @@
             </Grid>
 
             <!-- Row 2: 分钟设置 -->
-            <Border Grid.Row="2" Background="{StaticResource CardBrush}" CornerRadius="6"
+            <Border Grid.Row="2" Background="{DynamicResource CardBrush}" CornerRadius="6"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Padding="18,10">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="分钟" FontFamily="Microsoft YaHei" FontSize="14"
-                               Foreground="{StaticResource TextDimBrush}"
+                               Foreground="{DynamicResource TextDimBrush}"
                                VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <TextBox x:Name="CdMinutesInput" Text="{Binding Countdown.InputMinutes, UpdateSourceTrigger=PropertyChanged}"
                              FontFamily="Microsoft YaHei" FontSize="15"
-                             Background="Black" Foreground="{StaticResource TextBrush}"
-                             CaretBrush="{StaticResource AccentBrush}"
+                             Background="{DynamicResource BgBrush}" Foreground="{DynamicResource TextBrush}"
+                             CaretBrush="{DynamicResource AccentBrush}"
                              BorderThickness="0" Width="50"
                              VerticalContentAlignment="Center" Padding="4,2"/>
-                    <local:RoundButton Text="应 用" BgColor="#f59e0b" FgColor="#000000"
+                    <local:RoundButton Text="应 用" ThemeRole="Accent"
                                        FontSize="14" BtnWidth="72" BtnHeight="36"
                                        Command="{Binding Countdown.ApplyMinutesCommand}" Margin="8,0,0,0"/>
                 </StackPanel>
@@ -171,19 +171,19 @@
             <!-- Row 3: 任务标签 -->
             <TextBlock Grid.Row="3" Text="{Binding CurrentTaskDisplay}"
                        FontFamily="Microsoft YaHei" FontSize="15"
-                       Foreground="{StaticResource AccentBrush}"
+                       Foreground="{DynamicResource AccentBrush}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
             <!-- Row 4: 控制按钮 -->
             <StackPanel Grid.Row="4" Orientation="Horizontal"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                <local:RoundButton Text="开 始" BgColor="#f59e0b" FgColor="#000000"
+                <local:RoundButton Text="开 始" ThemeRole="Accent"
                                    FontSize="16" BtnWidth="134" BtnHeight="50"
                                    Command="{Binding Countdown.StartCommand}" Margin="6"/>
-                <local:RoundButton Text="暂 停" BgColor="#44403c" FgColor="#c8c3bc"
+                <local:RoundButton Text="暂 停" ThemeRole="Muted"
                                    FontSize="16" BtnWidth="134" BtnHeight="50"
                                    Command="{Binding Countdown.PauseCommand}" Margin="6"/>
-                <local:RoundButton Text="重 置" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="重 置" ThemeRole="Card"
                                    FontSize="15" BtnWidth="104" BtnHeight="44"
                                    Command="{Binding Countdown.ResetCommand}" Margin="6"/>
             </StackPanel>
@@ -200,12 +200,12 @@
 
             <!-- Row 0: 左上返回 + 右上任务 -->
             <Grid Grid.Row="0">
-                <local:RoundButton Text="← 返回" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="← 返回" ThemeRole="Card"
                                    FontSize="14" BtnWidth="92" BtnHeight="40"
                                    Command="{Binding NavigateToHomeCommand}"
                                    HorizontalAlignment="Left" VerticalAlignment="Top"
                                    Margin="20,20,0,0"/>
-                <local:RoundButton Text="任 务" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="任 务" ThemeRole="Card"
                                    FontSize="14" BtnWidth="92" BtnHeight="40"
                                    Command="{Binding OpenTaskListCommand}"
                                    HorizontalAlignment="Right" VerticalAlignment="Top"
@@ -223,19 +223,19 @@
             <!-- Row 2: 任务标签 -->
             <TextBlock Grid.Row="2" Text="{Binding CurrentTaskDisplay}"
                        FontFamily="Microsoft YaHei" FontSize="15"
-                       Foreground="{StaticResource SuccessBrush}"
+                       Foreground="{DynamicResource SuccessBrush}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
             <!-- Row 3: 控制按钮 -->
             <StackPanel Grid.Row="3" Orientation="Horizontal"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                <local:RoundButton Text="开 始" BgColor="#10b981" FgColor="#000000"
+                <local:RoundButton Text="开 始" ThemeRole="Success"
                                    FontSize="16" BtnWidth="134" BtnHeight="50"
                                    Command="{Binding Stopwatch.StartCommand}" Margin="6"/>
-                <local:RoundButton Text="暂 停" BgColor="#44403c" FgColor="#c8c3bc"
+                <local:RoundButton Text="暂 停" ThemeRole="Muted"
                                    FontSize="16" BtnWidth="134" BtnHeight="50"
                                    Command="{Binding Stopwatch.PauseCommand}" Margin="6"/>
-                <local:RoundButton Text="重 置" BgColor="#0a0a0a" FgColor="#c8c3bc"
+                <local:RoundButton Text="重 置" ThemeRole="Card"
                                    FontSize="15" BtnWidth="104" BtnHeight="44"
                                    Command="{Binding Stopwatch.ResetCommand}" Margin="6"/>
             </StackPanel>

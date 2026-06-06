@@ -35,7 +35,7 @@ namespace PomodoroWPF.Services
                 string json = File.ReadAllText(SettingsFile);
                 return JsonSerializer.Deserialize<AppSettings>(json) ?? new AppSettings();
             }
-            catch
+            catch (Exception)
             {
                 return new AppSettings();
             }
@@ -62,7 +62,7 @@ namespace PomodoroWPF.Services
                 string json = File.ReadAllText(StatsFile);
                 return JsonSerializer.Deserialize<DailyStats>(json) ?? new DailyStats();
             }
-            catch
+            catch (Exception)
             {
                 return new DailyStats();
             }
@@ -89,7 +89,7 @@ namespace PomodoroWPF.Services
                 string json = File.ReadAllText(StatsHistoryFile);
                 return JsonSerializer.Deserialize<List<DailyStats>>(json) ?? new List<DailyStats>();
             }
-            catch
+            catch (Exception)
             {
                 return new List<DailyStats>();
             }
@@ -122,7 +122,7 @@ namespace PomodoroWPF.Services
 
                 return new TaskStore();
             }
-            catch
+            catch (Exception)
             {
                 // Try legacy format migration
                 return TryMigrateLegacyTasks();
@@ -154,7 +154,7 @@ namespace PomodoroWPF.Services
                     return store;
                 }
             }
-            catch { }
+            catch (Exception) { }
 
             return new TaskStore();
         }
@@ -180,7 +180,7 @@ namespace PomodoroWPF.Services
                 string json = File.ReadAllText(AchievementsFile);
                 return JsonSerializer.Deserialize<List<Achievement>>(json) ?? new List<Achievement>();
             }
-            catch
+            catch (Exception)
             {
                 return new List<Achievement>();
             }

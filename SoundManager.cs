@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Media;
-using System.Threading.Tasks;
 
 namespace PomodoroWPF
 {
@@ -42,15 +41,7 @@ namespace PomodoroWPF
         /// </summary>
         public void PlayTick()
         {
-            Task.Run(() =>
-            {
-                try
-                {
-                    using var player = new SoundPlayer(_tickFile);
-                    player.PlaySync();
-                }
-                catch { }
-            });
+            try { _tickPlayer.Play(); } catch { }
         }
 
         /// <summary>

@@ -13,7 +13,6 @@ namespace PomodoroWPF
         public static AppSettings CurrentSettings { get; private set; } = new();
 
         private TrayManager? _tray;
-        private AmbientSoundService? _ambientSound;
         private HotkeyService? _hotkey;
 
         protected override void OnStartup(StartupEventArgs e)
@@ -36,48 +35,44 @@ namespace PomodoroWPF
             SoundManager? sound = null;
             try { sound = new SoundManager(); } catch { }
 
-            // 5. Ambient sound
-            try { _ambientSound = new AmbientSoundService(); } catch { }
-
-            // 6. Hotkey
+            // 5. Hotkey
             _hotkey = new HotkeyService();
 
-            // 7. Data services
+            // 6. Data services
             var taskService = new TaskService(persistence);
             var statsService = new StatsService(persistence);
             var achievementService = new AchievementService(persistence, statsService);
 
-            // 8. Register services in locator
+            // 7. Register services in locator
             ServiceLocator.Register(persistence);
             ServiceLocator.Register(taskService);
             ServiceLocator.Register(statsService);
             ServiceLocator.Register(achievementService);
             if (sound != null) ServiceLocator.Register(sound);
-            if (_ambientSound != null) ServiceLocator.Register(_ambientSound);
 
-            // 9. Create ViewModels
+            // 8. Create ViewModels
             var homeVM = new HomeViewModel(clockTimer, statsService, taskService, CurrentSettings);
             var countdownVM = new CountdownViewModel(countdownTimer, sound, CurrentSettings);
             var stopwatchVM = new StopwatchViewModel(stopwatchTimer);
             var taskListVM = new TaskListViewModel(taskService);
             var statsVM = new StatsViewModel(statsService, achievementService);
 
-            // 10. Create MainWindow (need reference for TrayManager)
+            // 9. Create MainWindow (need reference for TrayManager)
             var mainWindow = new MainWindow();
 
-            // 11. TrayManager (needs Window reference)
+            // 10. TrayManager (needs Window reference)
             try { _tray = new TrayManager(mainWindow); } catch { }
 
-            // 12. Create MainViewModel
+            // 11. Create MainViewModel
             var mainVM = new MainViewModel(
                 homeVM, countdownVM, stopwatchVM, taskListVM, statsVM,
                 statsService, taskService, achievementService,
-                persistence, _tray, _ambientSound, CurrentSettings);
+                persistence, _tray, CurrentSettings);
 
-            // 13. Initialize MainWindow
+            // 12. Initialize MainWindow
             mainWindow.Initialize(mainVM, _hotkey);
 
-            // 14. Wire global hotkeys to countdown commands
+            // 13. Wire global hotkeys to countdown commands
             _hotkey.HotkeyPressed += (id) =>
             {
                 mainWindow.Dispatcher.Invoke(() =>
@@ -98,17 +93,16 @@ namespace PomodoroWPF
                 });
             };
 
-            // 15. Show window
+            // 14. Show window
             mainWindow.Show();
 
-            // 16. Initial achievement check
+            // 15. Initial achievement check
             achievementService.CheckAchievements();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             _hotkey?.Dispose();
-            _ambientSound?.Dispose();
             _tray?.Dispose();
             base.OnExit(e);
         }

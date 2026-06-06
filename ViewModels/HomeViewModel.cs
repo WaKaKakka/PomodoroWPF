@@ -61,7 +61,7 @@ namespace PomodoroWPF.ViewModels
             CurrentTime = now.ToString("HH:mm:ss");
 
             var dayNames = new[] { "\u661f\u671f\u4e00", "\u661f\u671f\u4e8c", "\u661f\u671f\u4e09", "\u661f\u671f\u56db", "\u661f\u671f\u4e94", "\u661f\u671f\u516d", "\u661f\u671f\u65e5" };
-            CurrentDate = $"{now:yyyy-MM-dd}  {dayNames[(int)now.DayOfWeek]}";
+            CurrentDate = $"{now:yyyy-MM-dd}  {dayNames[((int)now.DayOfWeek + 6) % 7]}";
         }
 
         public void UpdateStats()

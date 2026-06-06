@@ -77,8 +77,9 @@ namespace PomodoroWPF.Controls
             string? lastMonth = null;
             int weekIndex = 0;
 
-            foreach (var cell in sorted)
+            for (int idx = 0; idx < sorted.Count; idx++)
             {
+                var cell = sorted[idx];
                 if (!DateTime.TryParse(cell.Date, out var date)) continue;
 
                 int dayOfWeek = ((int)date.DayOfWeek + 6) % 7; // Monday=0, Sunday=6
@@ -89,7 +90,7 @@ namespace PomodoroWPF.Controls
                     weekIndex++;
                 else if (dayOfWeek == 0 && col == 0)
                     weekIndex = 0;
-                else if (sorted.IndexOf(cell) == 0)
+                else if (idx == 0)
                     weekIndex = 0;
 
                 col = weekIndex;

@@ -108,7 +108,9 @@ namespace PomodoroWPF.Services
                 date = date.AddDays(-1);
             }
 
-            var historyDict = _history.ToDictionary(h => h.Date, h => h.CompletedPomodoros);
+            var historyDict = new Dictionary<string, int>();
+            foreach (var h in _history)
+                historyDict[h.Date] = h.CompletedPomodoros;
             while (true)
             {
                 string dateStr = date.ToString("yyyy-MM-dd");

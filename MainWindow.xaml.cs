@@ -38,18 +38,6 @@ namespace PomodoroWPF
 
             // Wire quit
             vm.QuitRequested += OnQuit;
-
-            // Wire countdown start to ambient sound
-            vm.Countdown.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(CountdownViewModel.IsRunning))
-                {
-                    if (vm.Countdown.IsRunning && !vm.Countdown.IsBreakMode)
-                        vm.StartAmbientIfNeeded();
-                    else if (!vm.Countdown.IsRunning)
-                        vm.StopAmbient();
-                }
-            };
         }
 
         private void OnCountdownPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -89,8 +77,8 @@ namespace PomodoroWPF
 
         private void OnQuit()
         {
-            _vm?.SaveAll();
             _hotkey?.Dispose();
+            _hotkey = null;
             Close();
         }
 

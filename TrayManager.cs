@@ -123,6 +123,9 @@ namespace PomodoroWPF
             return string.IsNullOrEmpty(cleaned) ? text : cleaned;
         }
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern bool DestroyIcon(IntPtr handle);
+
         /// <summary>
         /// 生成一个简单的红色圆形托盘图标
         /// </summary>
@@ -139,7 +142,15 @@ namespace PomodoroWPF
                 g.FillEllipse(leaf, 6, 0, 5, 4);
             }
 
-            return Icon.FromHandle(bmp.GetHicon());
+            IntPtr hIcon = bmp.GetHicon();
+            try
+            {
+                return (Icon)Icon.FromHandle(hIcon).Clone();
+            }
+            finally
+            {
+                DestroyIcon(hIcon);
+            }
         }
 
         public void Dispose()

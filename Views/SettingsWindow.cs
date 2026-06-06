@@ -10,6 +10,8 @@ namespace PomodoroWPF.Views
     public partial class SettingsWindow : Window
     {
         private readonly SettingsViewModel _vm;
+        private readonly ScrollViewer _scrollViewer;
+        private readonly StackPanel _panel;
 
         public SettingsWindow(SettingsViewModel vm)
         {
@@ -27,22 +29,33 @@ namespace PomodoroWPF.Views
             ResizeMode = ResizeMode.NoResize;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-            BuildUI(tc);
-        }
-
-        private void BuildUI(ThemeManager.ThemeColors tc)
-        {
-            var scroll = new ScrollViewer
+            // Persistent containers — never recreated, only children are refreshed
+            _scrollViewer = new ScrollViewer
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             };
+            _panel = new StackPanel { Margin = new Thickness(30, 24, 30, 24) };
+            _scrollViewer.Content = _panel;
+            Content = _scrollViewer;
 
-            var panel = new StackPanel { Margin = new Thickness(30, 24, 30, 24) };
-            scroll.Content = panel;
-            Content = scroll;
+            // Register one-time event handlers (avoid leak on UI rebuild)
+            KeyDown += (_, e) => { if (e.Key == Key.Escape) Close(); };
+            _vm.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(SettingsViewModel.DialogResult) && _vm.DialogResult == true)
+                    Close();
+            };
 
+            BuildUI(tc);
+        }
+
+        /// <summary>
+        /// Populate _panel with settings controls. Call after clearing _panel.Children to refresh.
+        /// </summary>
+        private void BuildUI(ThemeManager.ThemeColors tc)
+        {
             // Title
-            panel.Children.Add(new TextBlock
+            _panel.Children.Add(new TextBlock
             {
                 Text = "\u2699 \u8bbe\u7f6e",
                 FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 20, FontWeight = FontWeights.Bold,
@@ -52,7 +65,7 @@ namespace PomodoroWPF.Views
             });
 
             // Theme selection
-            AddSection(panel, tc, "\u989c\u8272\u4e3b\u9898", () =>
+            AddSection(_panel, tc, "\u989c\u8272\u4e3b\u9898", () =>
             {
                 var themePanel = new StackPanel { Orientation = Orientation.Horizontal };
                 foreach (var theme in _vm.AvailableThemes)
@@ -62,90 +75,63 @@ namespace PomodoroWPF.Views
                     btn.MouseLeftButtonDown += (_, _) =>
                     {
                         _vm.ApplyThemeCommand.Execute(theme.Id);
-                        // Rebuild UI with new theme
-                        var newTc = ThemeManager.GetCurrent(_vm.SelectedTheme);
-                        Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(newTc.Card));
-                        panel.Children.Clear();
-                        BuildUI(newTc);
-                        Content = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Content = panel };
+                        RefreshPanel();
                     };
                     themePanel.Children.Add(btn);
                 }
-                panel.Children.Add(themePanel);
+                _panel.Children.Add(themePanel);
             });
 
             // Toggles
-            AddToggle(panel, tc, "\u5012\u8ba1\u65f6\u6700\u540e 10 \u79d2\u6ef4\u7b54\u58f0",
+            AddToggle(_panel, tc, "\u5012\u8ba1\u65f6\u6700\u540e 10 \u79d2\u6ef4\u7b54\u58f0",
                 () => _vm.TickSoundEnabled, v => _vm.TickSoundEnabled = v);
 
-            AddToggle(panel, tc, "\u756a\u8304\u7ed3\u675f\u540e\u81ea\u52a8\u5f00\u59cb\u4f11\u606f",
+            AddToggle(_panel, tc, "\u756a\u8304\u7ed3\u675f\u540e\u81ea\u52a8\u5f00\u59cb\u4f11\u606f",
                 () => _vm.AutoBreak, v => _vm.AutoBreak = v);
 
-            AddToggle(panel, tc, "\u767d\u566a\u97f3\uff08\u4e13\u6ce8\u65f6\u64ad\u653e\uff09",
-                () => _vm.AmbientSoundEnabled, v => _vm.AmbientSoundEnabled = v);
-
-            // Ambient sound type
-            AddSection(panel, tc, "\u767d\u566a\u97f3\u7c7b\u578b", () =>
-            {
-                var typePanel = new StackPanel { Orientation = Orientation.Horizontal };
-                foreach (var (type, name) in new (string, string)[] { ("rain", "\u2248 \u96e8\u58f0"), ("wind", "\u223c \u98ce\u58f0"), ("cafe", "\u2615 \u5496\u5561\u5385") })
-                {
-                    bool isSelected = _vm.AmbientSoundType == type;
-                    var btn = CreateButton(name, isSelected ? tc.Accent : tc.TextMuted, isSelected ? "#000000" : tc.TextDim);
-                    btn.Margin = new Thickness(4);
-                    btn.MouseLeftButtonDown += (_, _) =>
-                    {
-                        _vm.AmbientSoundType = type;
-                        RebuildSelf(tc);
-                    };
-                    typePanel.Children.Add(btn);
-                }
-                panel.Children.Add(typePanel);
-            });
-
             // Numeric settings
-            AddNumericInput(panel, tc, "\u5de5\u4f5c\u65f6\u957f\uff08\u5206\u949f\uff09",
+            AddNumericInput(_panel, tc, "\u5de5\u4f5c\u65f6\u957f\uff08\u5206\u949f\uff09",
                 () => _vm.WorkDurationMinutes, v => _vm.WorkDurationMinutes = v, 1, 120);
 
-            AddNumericInput(panel, tc, "\u77ed\u4f11\u606f\u65f6\u957f\uff08\u5206\u949f\uff09",
+            AddNumericInput(_panel, tc, "\u77ed\u4f11\u606f\u65f6\u957f\uff08\u5206\u949f\uff09",
                 () => _vm.BreakDurationMinutes, v => _vm.BreakDurationMinutes = v, 1, 30);
 
-            AddNumericInput(panel, tc, "\u957f\u4f11\u606f\u65f6\u957f\uff08\u5206\u949f\uff09",
+            AddNumericInput(_panel, tc, "\u957f\u4f11\u606f\u65f6\u957f\uff08\u5206\u949f\uff09",
                 () => _vm.LongBreakDurationMinutes, v => _vm.LongBreakDurationMinutes = v, 1, 60);
 
-            AddNumericInput(panel, tc, "\u6bcf N \u4e2a\u756a\u8304\u540e\u957f\u4f11\u606f",
+            AddNumericInput(_panel, tc, "\u6bcf N \u4e2a\u756a\u8304\u540e\u957f\u4f11\u606f",
                 () => _vm.PomodorosBeforeLongBreak, v => _vm.PomodorosBeforeLongBreak = v, 1, 10);
 
-            AddNumericInput(panel, tc, "\u6bcf\u65e5\u76ee\u6807\u756a\u8304\u6570",
+            AddNumericInput(_panel, tc, "\u6bcf\u65e5\u76ee\u6807\u756a\u8304\u6570",
                 () => _vm.DailyGoalPomodoros, v => _vm.DailyGoalPomodoros = v, 0, 50);
 
             // Buttons
             var btnPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 16, 0, 0) };
 
             var saveBtn = CreateButton("\u4fdd \u5b58", tc.Accent, "#000000");
-            saveBtn.MouseLeftButtonDown += (_, _) => _vm.SaveCommand.Execute(null);
+            saveBtn.MouseLeftButtonDown += (_, _) =>
+            {
+                _vm.SaveCommand.Execute(null);
+                Close();
+            };
             btnPanel.Children.Add(saveBtn);
 
             var closeBtn = CreateButton("\u5173 \u95ed", tc.TextMuted, tc.TextDim);
             closeBtn.MouseLeftButtonDown += (_, _) => Close();
             btnPanel.Children.Add(closeBtn);
 
-            panel.Children.Add(btnPanel);
-
-            KeyDown += (_, e) => { if (e.Key == Key.Escape) Close(); };
-
-            _vm.PropertyChanged += (_, e) =>
-            {
-                if (e.PropertyName == nameof(SettingsViewModel.DialogResult) && _vm.DialogResult == true)
-                    Close();
-            };
+            _panel.Children.Add(btnPanel);
         }
 
-        private void RebuildSelf(ThemeManager.ThemeColors oldTc)
+        /// <summary>
+        /// Refresh the settings panel with current theme colors.
+        /// Reuses the same ScrollViewer and StackPanel — no container recreation.
+        /// </summary>
+        private void RefreshPanel()
         {
             var newTc = ThemeManager.GetCurrent(_vm.SelectedTheme);
             Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(newTc.Card));
-            var newPanel = new StackPanel { Margin = new Thickness(30, 24, 30, 24) };
+            _panel.Children.Clear();
             BuildUI(newTc);
         }
 

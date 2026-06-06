@@ -1,17 +1,40 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 
 namespace PomodoroWPF
 {
     /// <summary>
-    /// 圆角按钮 — 极简精致
+    /// 圆角按钮 — 极简精致，支持主题感知
     /// </summary>
     public class RoundButton : Border
     {
+        /// <summary>
+        /// 全局主题感知按钮列表 — 主题切换时自动更新
+        /// </summary>
+        private static readonly List<WeakReference<RoundButton>> _themeAwareButtons = new();
+
+        static RoundButton()
+        {
+            ThemeManager.ThemeChanged += OnGlobalThemeChanged;
+        }
+
+        private static void OnGlobalThemeChanged(string themeId)
+        {
+            var tc = ThemeManager.GetCurrent(themeId);
+            // Clean up dead references while updating
+            for (int i = _themeAwareButtons.Count - 1; i >= 0; i--)
+            {
+                if (_themeAwareButtons[i].TryGetTarget(out var btn))
+                    btn.ApplyThemeRole(tc);
+                else
+                    _themeAwareButtons.RemoveAt(i);
+            }
+        }
+
         public static readonly RoutedEvent ClickEvent =
             EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler), typeof(RoundButton));
@@ -46,13 +69,20 @@ namespace PomodoroWPF
             DependencyProperty.Register("BtnHeight", typeof(double), typeof(RoundButton),
                 new PropertyMetadata(50.0, OnTextOrStyleChanged));
 
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(RoundButton),
-                new PropertyMetadata(null));
+        public static readonly DependencyProperty ThemeRoleProperty =
+            DependencyProperty.Register("ThemeRole", typeof(string), typeof(RoundButton),
+                new PropertyMetadata("None", OnThemeRoleChanged));
 
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(RoundButton),
-                new PropertyMetadata(null));
+        private static void OnThemeRoleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is RoundButton btn && (string)e.NewValue != "None")
+            {
+                _themeAwareButtons.Add(new WeakReference<RoundButton>(btn));
+                // Apply current theme immediately
+                var tc = ThemeManager.GetCurrent(App.CurrentSettings.Theme);
+                btn.ApplyThemeRole(tc);
+            }
+        }
 
         public ICommand Command
         {
@@ -102,6 +132,24 @@ namespace PomodoroWPF
             set => SetValue(BtnHeightProperty, value);
         }
 
+        /// <summary>
+        /// 主题角色 — 设为 Card/Accent/Muted/Success 后按钮颜色随主题自动切换。
+        /// 默认 "None" 表示使用显式 BgColor/FgColor。
+        /// </summary>
+        public string ThemeRole
+        {
+            get => (string)GetValue(ThemeRoleProperty);
+            set => SetValue(ThemeRoleProperty, value);
+        }
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(RoundButton),
+                new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(RoundButton),
+                new PropertyMetadata(null));
+
         private TextBlock? _label;
         private Brush? _normalBg;
         private Brush? _hoverBg;
@@ -119,6 +167,29 @@ namespace PomodoroWPF
         {
             if (d is RoundButton btn && btn.IsLoaded)
                 btn.ApplyStyle();
+        }
+
+        private void ApplyThemeRole(ThemeManager.ThemeColors tc)
+        {
+            switch (ThemeRole)
+            {
+                case "Card":
+                    BgColor = tc.Card;
+                    FgColor = tc.TextDim;
+                    break;
+                case "Accent":
+                    BgColor = tc.Accent;
+                    FgColor = "#000000";
+                    break;
+                case "Muted":
+                    BgColor = tc.TextMuted;
+                    FgColor = tc.TextDim;
+                    break;
+                case "Success":
+                    BgColor = tc.Success;
+                    FgColor = "#000000";
+                    break;
+            }
         }
 
         private void ApplyStyle()

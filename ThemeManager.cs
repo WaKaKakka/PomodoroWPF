@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
@@ -9,6 +10,11 @@ namespace PomodoroWPF
     /// </summary>
     public static class ThemeManager
     {
+        /// <summary>
+        /// 全局主题变更事件 — 所有需要响应主题变化的组件可订阅此事件
+        /// </summary>
+        public static event Action<string>? ThemeChanged;
+
         public class ThemeColors
         {
             public string Name { get; set; } = "";
@@ -81,6 +87,10 @@ namespace PomodoroWPF
             SetBrush(res, "TextBrush", t.Text);
             SetBrush(res, "TextDimBrush", t.TextDim);
             SetBrush(res, "TextMutedBrush", t.TextMuted);
+
+            // Sync global settings and notify subscribers
+            App.CurrentSettings.Theme = themeId;
+            ThemeChanged?.Invoke(themeId);
         }
 
         private static void SetBrush(ResourceDictionary res, string key, string hex)
