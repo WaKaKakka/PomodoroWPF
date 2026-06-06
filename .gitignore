@@ -1,0 +1,24 @@
+# Build output
+bin/
+obj/
+publish/
+
+# Runtime data files (auto-generated on first run)
+settings.json
+stats.json
+stats_history.json
+tasks.json
+achievements.json
+sounds/
+
+# IDE
+.vs/
+*.user
+*.suo
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
+Desktop.ini
