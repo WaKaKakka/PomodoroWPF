@@ -126,11 +126,11 @@ namespace PomodoroWPF.ViewModels
             // Check achievements
             string? achievement = _achievementService.CheckAchievements();
             if (achievement != null)
-                _tray?.ShowNotification("\U0001F3c6 \u6210\u5c31\u89e3\u9501", $"\u606d\u559c\u83b7\u5f97\u6210\u5c31\uff1a{achievement}");
+                _tray?.ShowNotification("\u2605 \u6210\u5c31\u89e3\u9501", $"\u606d\u559c\u83b7\u5f97\u6210\u5c31\uff1a{achievement}");
 
             // Tray notification
             _tray?.ShowNotification("\u756a\u8304\u949f",
-                $"\U0001F345 \u7b2c {_statsService.Today.CompletedPomodoros} \u4e2a\u756a\u8304\u5b8c\u6210\uff01");
+                $"\u25cf \u7b2c {_statsService.Today.CompletedPomodoros} \u4e2a\u756a\u8304\u5b8c\u6210\uff01");
 
             // Stop ambient sound during break
             if (_settings.AmbientSoundEnabled)

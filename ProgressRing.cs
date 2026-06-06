@@ -78,16 +78,16 @@ namespace PomodoroWPF
                 _arcPath = new Path { StrokeThickness = RingWidth };
                 _mainText = new TextBlock
                 {
-                    FontFamily = new FontFamily("Segoe UI"),
-                    FontSize = 56,
+                    FontFamily = new FontFamily("Microsoft YaHei"),
+                    FontSize = 60,
                     FontWeight = FontWeights.Bold,
                     Foreground = GetBrush("#fafaf9"),
                 };
                 _subText = new TextBlock
                 {
-                    FontFamily = new FontFamily("Segoe UI"),
-                    FontSize = 14,
-                    Foreground = GetBrush("#57534e"),
+                    FontFamily = new FontFamily("Microsoft YaHei"),
+                    FontSize = 16,
+                    Foreground = GetBrush("#c8c3bc"),
                 };
 
                 _canvas.Children.Add(_bgRing);
@@ -107,7 +107,7 @@ namespace PomodoroWPF
             _canvas.Height = s;
 
             // 底色环（完整圆）
-            _bgRing!.Stroke = GetBrush("#292524");
+            _bgRing!.Stroke = GetBrush("#44403c");
             _bgRing.Data = new EllipseGeometry(new Point(cx, cy), r, r);
 
             // 进度弧（初始为空）

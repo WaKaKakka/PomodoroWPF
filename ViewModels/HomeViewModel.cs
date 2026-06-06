@@ -87,15 +87,15 @@ namespace PomodoroWPF.ViewModels
             }
             DailyGoalProgress = Math.Min(1.0, (double)today / goal);
             if (today >= goal)
-                DailyGoalText = $"\U0001F3AF \u76ee\u6807\u8fbe\u6210\uff01{today}/{goal} \U0001F345";
+                DailyGoalText = $"\u25ce \u76ee\u6807\u8fbe\u6210\uff01{today}/{goal} \u25cf";
             else
-                DailyGoalText = $"\u76ee\u6807\uff1a{today}/{goal} \U0001F345";
+                DailyGoalText = $"\u76ee\u6807\uff1a{today}/{goal} \u25cf";
         }
 
         public void UpdateStreak()
         {
             int streak = _statsService.GetCurrentStreak();
-            StreakText = streak > 0 ? $"\U0001F525 \u8fde\u7eed {streak} \u5929" : "";
+            StreakText = streak > 0 ? $"\u25b2 \u8fde\u7eed {streak} \u5929" : "";
         }
     }
 }

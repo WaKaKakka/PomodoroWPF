@@ -43,8 +43,8 @@ namespace PomodoroWPF.Views
             // Title
             panel.Children.Add(new TextBlock
             {
-                Text = "\U0001F4CA \u7edf\u8ba1\u6982\u89c8",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 18, FontWeight = FontWeights.Bold,
+                Text = "\u25a3 \u7edf\u8ba1\u6982\u89c8",
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 20, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Margin = new Thickness(0, 0, 0, 16),
@@ -52,25 +52,25 @@ namespace PomodoroWPF.Views
 
             // Summary cards
             var cardsPanel = new StackPanel { Orientation = Orientation.Horizontal };
-            cardsPanel.Children.Add(CreateCard(tc, "\u4eca\u65e5", _vm.TodayPomodoroCount + " \U0001F345", _vm.TodayFocusTime));
-            cardsPanel.Children.Add(CreateCard(tc, "\u672c\u5468", _vm.WeeklyTotal + " \U0001F345", _vm.WeeklyFocusTime));
-            cardsPanel.Children.Add(CreateCard(tc, "\u672c\u6708", _vm.MonthlyTotal + " \U0001F345", _vm.MonthlyFocusTime));
+            cardsPanel.Children.Add(CreateCard(tc, "\u4eca\u65e5", _vm.TodayPomodoroCount + " \u25cf", _vm.TodayFocusTime));
+            cardsPanel.Children.Add(CreateCard(tc, "\u672c\u5468", _vm.WeeklyTotal + " \u25cf", _vm.WeeklyFocusTime));
+            cardsPanel.Children.Add(CreateCard(tc, "\u672c\u6708", _vm.MonthlyTotal + " \u25cf", _vm.MonthlyFocusTime));
             panel.Children.Add(cardsPanel);
 
             // Streak info
             var streakPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 16, 0, 16), HorizontalAlignment = HorizontalAlignment.Center };
             streakPanel.Children.Add(new TextBlock
             {
-                Text = $"\U0001F525 \u8fde\u7eed {_vm.CurrentStreak} \u5929",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 14, FontWeight = FontWeights.Bold,
+                Text = $"\u25b2 \u8fde\u7eed {_vm.CurrentStreak} \u5929",
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 16, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Accent)),
                 Margin = new Thickness(0, 0, 24, 0),
                 VerticalAlignment = VerticalAlignment.Center,
             });
             streakPanel.Children.Add(new TextBlock
             {
-                Text = $"\u6700\u957f {_vm.LongestStreak} \u5929  \u00b7  \u7d2f\u8ba1 {_vm.AllTimeTotal} \U0001F345",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 12,
+                Text = $"\u6700\u957f {_vm.LongestStreak} \u5929  \u00b7  \u7d2f\u8ba1 {_vm.AllTimeTotal} \u25cf",
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 14,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                 VerticalAlignment = VerticalAlignment.Center,
             });
@@ -79,8 +79,8 @@ namespace PomodoroWPF.Views
             // Heatmap
             panel.Children.Add(new TextBlock
             {
-                Text = "\U0001F5D3 \u4e13\u6ce8\u70ed\u529b\u56fe\uff08\u8fd1 16 \u5468\uff09",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 14, FontWeight = FontWeights.Bold,
+                Text = "\u25a6 \u4e13\u6ce8\u70ed\u529b\u56fe\uff08\u8fd1 16 \u5468\uff09",
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 16, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 Margin = new Thickness(0, 8, 0, 8),
             });
@@ -114,8 +114,8 @@ namespace PomodoroWPF.Views
             // Achievements
             panel.Children.Add(new TextBlock
             {
-                Text = "\U0001F3C6 \u6210\u5c31",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 14, FontWeight = FontWeights.Bold,
+                Text = "\u2605 \u6210\u5c31",
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 16, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 Margin = new Thickness(0, 20, 0, 8),
             });
@@ -158,20 +158,20 @@ namespace PomodoroWPF.Views
             stack.Children.Add(new TextBlock
             {
                 Text = title,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 11,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 13,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
             });
             stack.Children.Add(new TextBlock
             {
                 Text = count,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 20, FontWeight = FontWeights.Bold,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 22, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Accent)),
                 Margin = new Thickness(0, 4, 0, 0),
             });
             stack.Children.Add(new TextBlock
             {
                 Text = time,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 11,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 13,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                 Margin = new Thickness(0, 2, 0, 0),
             });
@@ -188,7 +188,7 @@ namespace PomodoroWPF.Views
                 CornerRadius = new CornerRadius(6),
                 Padding = new Thickness(12, 8, 12, 8),
                 Margin = new Thickness(4),
-                Width = 170,
+                Width = 190,
                 BorderThickness = new Thickness(a.IsUnlocked ? 1 : 0),
                 BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(
                     a.IsUnlocked ? tc.Accent : "Transparent")),
@@ -198,15 +198,19 @@ namespace PomodoroWPF.Views
             var stack = new StackPanel();
             stack.Children.Add(new TextBlock
             {
-                Text = a.IsUnlocked ? $"{a.IconEmoji} {a.Name}" : $"\U0001F512 {a.Name}",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 12, FontWeight = FontWeights.Bold,
+                // WPF 不支持彩色 Emoji 字体渲染，使用基础 Unicode 符号替代
+                Text = a.IsUnlocked ? $"\u2605 {a.Name}" : $"\u25CB {a.Name}",
+                TextWrapping = TextWrapping.Wrap,
+                FontFamily = new FontFamily("Microsoft YaHei"), 
+                FontSize = 14, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(
                     a.IsUnlocked ? tc.Accent : tc.TextDim)),
             });
             stack.Children.Add(new TextBlock
             {
                 Text = a.Description,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 10,
+                TextWrapping = TextWrapping.Wrap,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 12,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                 Margin = new Thickness(0, 2, 0, 0),
             });
@@ -251,7 +255,7 @@ namespace PomodoroWPF.Views
                 Child = new TextBlock
                 {
                     Text = text,
-                    FontFamily = new FontFamily("Segoe UI"), FontSize = 13, FontWeight = FontWeights.Bold,
+                    FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 15, FontWeight = FontWeights.Bold,
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fg)),
                     HorizontalAlignment = HorizontalAlignment.Center,
                 },

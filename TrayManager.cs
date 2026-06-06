@@ -94,8 +94,33 @@ namespace PomodoroWPF
             // 需要先让图标可见才能发通知
             _notifyIcon.Visible = true;
             _notifyIcon.BalloonTipTitle = title;
-            _notifyIcon.BalloonTipText = message;
+            // 过滤 Emoji 字符，因为托盘通知不支持彩色 Emoji 显示
+            _notifyIcon.BalloonTipText = RemoveEmoji(message);
             _notifyIcon.ShowBalloonTip(3000);
+        }
+
+        /// <summary>
+        /// 移除字符串中的 Emoji 字符（托盘通知兼容性）
+        /// </summary>
+        private static string RemoveEmoji(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            
+            var result = new System.Text.StringBuilder();
+            foreach (char c in text)
+            {
+                // 保留基本多语言平面字符，过滤补充平面字符（Emoji 所在区域）
+                if (!char.IsHighSurrogate(c) && !char.IsLowSurrogate(c))
+                {
+                    // 保留常规字符，但过滤常见 Emoji 范围
+                    if (c < 0x2000 || c > 0x32FF)
+                        result.Append(c);
+                }
+            }
+            
+            var cleaned = result.ToString().Trim();
+            // 如果过滤后为空，返回原文
+            return string.IsNullOrEmpty(cleaned) ? text : cleaned;
         }
 
         /// <summary>

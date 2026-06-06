@@ -30,7 +30,7 @@ namespace PomodoroWPF.Controls
 
         public static readonly DependencyProperty MutedColorProperty =
             DependencyProperty.Register(nameof(MutedColor), typeof(string), typeof(HeatmapControl),
-                new PropertyMetadata("#292524", OnPropertyChanged));
+                new PropertyMetadata("#44403c", OnPropertyChanged));
 
         public double CellSize { get => (double)GetValue(CellSizeProperty); set => SetValue(CellSizeProperty, value); }
         public double CellSpacing { get => (double)GetValue(CellSpacingProperty); set => SetValue(CellSpacingProperty, value); }
@@ -130,10 +130,10 @@ namespace PomodoroWPF.Controls
                     var label = new TextBlock
                     {
                         Text = date.ToString("M\u6708"),
-                        FontFamily = new FontFamily("Segoe UI"),
+                        FontFamily = new FontFamily("Microsoft YaHei"),
                         FontSize = 9,
                         Foreground = new SolidColorBrush(
-                            (Color)ColorConverter.ConvertFromString("#57534e")),
+                            (Color)ColorConverter.ConvertFromString("#c8c3bc")),
                     };
                     Canvas.SetLeft(label, x);
                     Canvas.SetTop(label, 0);

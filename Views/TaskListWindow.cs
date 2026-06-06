@@ -42,8 +42,8 @@ namespace PomodoroWPF.Views
             var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 12) };
             header.Children.Add(new TextBlock
             {
-                Text = "\U0001F4CB \u4efb\u52a1\u5217\u8868",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 16, FontWeight = FontWeights.Bold,
+                Text = "\u25a4 \u4efb\u52a1\u5217\u8868",
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 18, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 VerticalAlignment = VerticalAlignment.Center,
             });
@@ -51,7 +51,7 @@ namespace PomodoroWPF.Views
             var summaryText = new TextBlock
             {
                 Text = _vm.SummaryText,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 12,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 14,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(12, 0, 0, 0),
@@ -120,7 +120,7 @@ namespace PomodoroWPF.Views
                 panel.Children.Add(new TextBlock
                 {
                     Text = "\u6682\u65e0\u4efb\u52a1\uff0c\u70b9\u51fb\u201c+ \u6dfb\u52a0\u201d\u5f00\u59cb",
-                    FontFamily = new FontFamily("Segoe UI"), FontSize = 13,
+                    FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 15,
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Margin = new Thickness(0, 40, 0, 0),
@@ -180,9 +180,9 @@ namespace PomodoroWPF.Views
             content.Children.Add(new TextBlock
             {
                 Text = task.IsCompleted ? $"\u2713 {task.Name}" : task.Name,
-                FontFamily = new FontFamily("Segoe UI"),
-                FontSize = 13,
-                FontWeight = task.IsCompleted ? FontWeights.Normal : FontWeights.SemiBold,
+                FontFamily = new FontFamily("Microsoft YaHei"),
+                FontSize = 15,
+                FontWeight = task.IsCompleted ? FontWeights.Normal : FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(
                     task.IsCompleted ? tc.TextDim : tc.Text)),
                 TextDecorations = task.IsCompleted ? TextDecorations.Strikethrough : null,
@@ -190,7 +190,7 @@ namespace PomodoroWPF.Views
             content.Children.Add(new TextBlock
             {
                 Text = $"{task.PomodoroDisplay}  \u00b7  {task.PriorityLabel}",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 11,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 13,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                 Margin = new Thickness(0, 2, 0, 0),
             });
@@ -273,7 +273,7 @@ namespace PomodoroWPF.Views
                 Child = new TextBlock
                 {
                     Text = text,
-                    FontFamily = new FontFamily("Segoe UI"), FontSize = 13,
+                    FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 15,
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color)),
                     HorizontalAlignment = HorizontalAlignment.Center,
                 },
@@ -295,7 +295,7 @@ namespace PomodoroWPF.Views
                 Child = new TextBlock
                 {
                     Text = text,
-                    FontFamily = new FontFamily("Segoe UI"), FontSize = 12, FontWeight = FontWeights.Bold,
+                    FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 14, FontWeight = FontWeights.Bold,
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fg)),
                     HorizontalAlignment = HorizontalAlignment.Center,
                 },

@@ -45,7 +45,7 @@ namespace PomodoroWPF.Views
             panel.Children.Add(new TextBlock
             {
                 Text = "\u2699 \u8bbe\u7f6e",
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 18, FontWeight = FontWeights.Bold,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 20, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Margin = new Thickness(0, 0, 0, 20),
@@ -88,7 +88,7 @@ namespace PomodoroWPF.Views
             AddSection(panel, tc, "\u767d\u566a\u97f3\u7c7b\u578b", () =>
             {
                 var typePanel = new StackPanel { Orientation = Orientation.Horizontal };
-                foreach (var (type, name) in new (string, string)[] { ("rain", "\U0001F327 \u96e8\u58f0"), ("wind", "\U0001F32C \u98ce\u58f0"), ("cafe", "\u2615 \u5496\u5561\u5385") })
+                foreach (var (type, name) in new (string, string)[] { ("rain", "\u2248 \u96e8\u58f0"), ("wind", "\u223c \u98ce\u58f0"), ("cafe", "\u2615 \u5496\u5561\u5385") })
                 {
                     bool isSelected = _vm.AmbientSoundType == type;
                     var btn = CreateButton(name, isSelected ? tc.Accent : tc.TextMuted, isSelected ? "#000000" : tc.TextDim);
@@ -154,7 +154,7 @@ namespace PomodoroWPF.Views
             panel.Children.Add(new TextBlock
             {
                 Text = label,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 12,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 14,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                 Margin = new Thickness(0, 4, 0, 6),
             });
@@ -167,7 +167,7 @@ namespace PomodoroWPF.Views
             row.Children.Add(new TextBlock
             {
                 Text = label,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 13,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 15,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(0, 0, 12, 0),
@@ -193,7 +193,7 @@ namespace PomodoroWPF.Views
             row.Children.Add(new TextBlock
             {
                 Text = label,
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 13,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 15,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(0, 0, 12, 0),
@@ -202,7 +202,7 @@ namespace PomodoroWPF.Views
             var input = new TextBox
             {
                 Text = getter().ToString(),
-                FontFamily = new FontFamily("Segoe UI"), FontSize = 13,
+                FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 15,
                 Width = 50,
                 Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Bg)),
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
@@ -233,7 +233,7 @@ namespace PomodoroWPF.Views
                 Child = new TextBlock
                 {
                     Text = text,
-                    FontFamily = new FontFamily("Segoe UI"), FontSize = 12, FontWeight = FontWeights.Bold,
+                    FontFamily = new FontFamily("Microsoft YaHei"), FontSize = 14, FontWeight = FontWeights.Bold,
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fg)),
                     HorizontalAlignment = HorizontalAlignment.Center,
                 },

@@ -25,8 +25,8 @@ namespace PomodoroWPF.Views
             mainPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
                 Text = title,
-                FontFamily = new FontFamily("Segoe UI"),
-                FontSize = 17,
+                FontFamily = new FontFamily("Microsoft YaHei"),
+                FontSize = 19,
                 FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.Text)),
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -36,8 +36,8 @@ namespace PomodoroWPF.Views
             mainPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
                 Text = message,
-                FontFamily = new FontFamily("Segoe UI"),
-                FontSize = 12,
+                FontFamily = new FontFamily("Microsoft YaHei"),
+                FontSize = 14,
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tc.TextDim)),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Margin = new Thickness(0, 0, 0, 16),
@@ -64,8 +64,8 @@ namespace PomodoroWPF.Views
                 Child = new System.Windows.Controls.TextBlock
                 {
                     Text = text,
-                    FontFamily = new FontFamily("Segoe UI"),
-                    FontSize = 13,
+                    FontFamily = new FontFamily("Microsoft YaHei"),
+                    FontSize = 15,
                     FontWeight = FontWeights.Bold,
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(fg)),
                     HorizontalAlignment = HorizontalAlignment.Center,

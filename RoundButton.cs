@@ -138,7 +138,7 @@ namespace PomodoroWPF
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
-                    FontFamily = new FontFamily("Segoe UI"),
+                    FontFamily = new FontFamily("Microsoft YaHei"),
                     FontWeight = FontWeights.Bold,
                 };
                 Child = _label;

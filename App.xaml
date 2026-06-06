@@ -4,6 +4,13 @@
              xmlns:conv="clr-namespace:PomodoroWPF.Converters">
     <Application.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
+        <!-- ===== 全局字体 — 微软雅黑 ===== -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+        </Style>
         <!-- ===== 颜色主题 — 极简黑金 ===== -->
         <Color x:Key="BgColor">#000000</Color>
         <Color x:Key="CardColor">#0a0a0a</Color>
@@ -15,8 +22,8 @@
         <Color x:Key="SuccessDimColor">#065f46</Color>
         <Color x:Key="WarningColor">#f59e0b</Color>
         <Color x:Key="TextColor">#fafaf9</Color>
-        <Color x:Key="TextDimColor">#57534e</Color>
-        <Color x:Key="TextMutedColor">#292524</Color>
+        <Color x:Key="TextDimColor">#c8c3bc</Color>
+        <Color x:Key="TextMutedColor">#57534e</Color>
 
         <SolidColorBrush x:Key="BgBrush" Color="{StaticResource BgColor}"/>
         <SolidColorBrush x:Key="CardBrush" Color="{StaticResource CardColor}"/>

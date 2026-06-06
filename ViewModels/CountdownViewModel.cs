@@ -60,7 +60,7 @@ namespace PomodoroWPF.ViewModels
             {
                 if (!_isBreakMode) return "";
                 return _isLongBreak
-                    ? $"\U0001F33F \u957f\u4f11\u606f ({_settings.LongBreakDurationMinutes}\u5206\u949f)"
+                    ? $"\u25c6 \u957f\u4f11\u606f ({_settings.LongBreakDurationMinutes}\u5206\u949f)"
                     : $"\u2615 \u77ed\u4f11\u606f ({_settings.BreakDurationMinutes}\u5206\u949f)";
             }
         }

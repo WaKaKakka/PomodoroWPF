@@ -67,6 +67,6 @@ namespace PomodoroWPF.Models
             _ => "\u4e2d"
         };
 
-        public string PomodoroDisplay => $"{ActualPomodoros}/{EstimatedPomodoros} \U0001F345";
+        public string PomodoroDisplay => $"{ActualPomodoros}/{EstimatedPomodoros} \u25cf";
     }
 }

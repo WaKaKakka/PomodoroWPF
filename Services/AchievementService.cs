@@ -15,11 +15,11 @@ namespace PomodoroWPF.Services
 
         private static readonly Achievement[] DefaultAchievements = new[]
         {
-            new Achievement { Id = "first_pomodoro", Name = "\u521d\u7aa5\u95e8\u5f84", Description = "\u5b8c\u6210\u7b2c 1 \u4e2a\u756a\u8304", IconEmoji = "\U0001F345" },
-            new Achievement { Id = "four_in_day", Name = "\u65e5\u8fdb\u56db\u8304", Description = "\u5355\u65e5\u5b8c\u6210 4 \u4e2a\u756a\u8304", IconEmoji = "\U0001F345\U0001F345\U0001F345\U0001F345" },
-            new Achievement { Id = "streak_7", Name = "\u4e00\u5468\u575a\u6301", Description = "\u8fde\u7eed 7 \u5929\u6709\u756a\u8304", IconEmoji = "\U0001F525" },
-            new Achievement { Id = "streak_30", Name = "\u6708\u4e0d\u95f4\u65ad", Description = "\u8fde\u7eed 30 \u5929\u6709\u756a\u8304", IconEmoji = "\U0001F525\U0001F525" },
-            new Achievement { Id = "total_100", Name = "\u767e\u8304\u8fbe\u6210", Description = "\u7d2f\u8ba1 100 \u4e2a\u756a\u8304", IconEmoji = "\U0001F4AF" },
+            new Achievement { Id = "first_pomodoro", Name = "\u521d\u7aa5\u95e8\u5f84", Description = "\u5b8c\u6210\u7b2c 1 \u4e2a\u756a\u8304", IconEmoji = "\u25cf" },
+            new Achievement { Id = "four_in_day", Name = "\u65e5\u8fdb\u56db\u8304", Description = "\u5355\u65e5\u5b8c\u6210 4 \u4e2a\u756a\u8304", IconEmoji = "\u25cf\u25cf\u25cf\u25cf" },
+            new Achievement { Id = "streak_7", Name = "\u4e00\u5468\u575a\u6301", Description = "\u8fde\u7eed 7 \u5929\u6709\u756a\u8304", IconEmoji = "\u25b2" },
+            new Achievement { Id = "streak_30", Name = "\u6708\u4e0d\u95f4\u65ad", Description = "\u8fde\u7eed 30 \u5929\u6709\u756a\u8304", IconEmoji = "\u25b2\u25b2" },
+            new Achievement { Id = "total_100", Name = "\u767e\u8304\u8fbe\u6210", Description = "\u7d2f\u8ba1 100 \u4e2a\u756a\u8304", IconEmoji = "\u2605" },
         };
 
         public AchievementService(PersistenceService persistence, StatsService statsService)
@@ -43,32 +43,41 @@ namespace PomodoroWPF.Services
             // First pomodoro
             if (TryUnlock("first_pomodoro",
                 () => _statsService.GetTotalPomodoros() >= 1))
-                newlyUnlocked = GetAchievement("first_pomodoro")?.Name;
+                newlyUnlocked = FormatAchievementName(GetAchievement("first_pomodoro"));
 
             // 4 in a day
             if (TryUnlock("four_in_day",
                 () => _statsService.Today.CompletedPomodoros >= 4))
-                newlyUnlocked = GetAchievement("four_in_day")?.Name;
+                newlyUnlocked = FormatAchievementName(GetAchievement("four_in_day"));
 
             // 7 day streak
             if (TryUnlock("streak_7",
                 () => _statsService.GetCurrentStreak() >= 7))
-                newlyUnlocked = GetAchievement("streak_7")?.Name;
+                newlyUnlocked = FormatAchievementName(GetAchievement("streak_7"));
 
             // 30 day streak
             if (TryUnlock("streak_30",
                 () => _statsService.GetCurrentStreak() >= 30))
-                newlyUnlocked = GetAchievement("streak_30")?.Name;
+                newlyUnlocked = FormatAchievementName(GetAchievement("streak_30"));
 
             // 100 total
             if (TryUnlock("total_100",
                 () => _statsService.GetTotalPomodoros() >= 100))
-                newlyUnlocked = GetAchievement("total_100")?.Name;
+                newlyUnlocked = FormatAchievementName(GetAchievement("total_100"));
 
             if (newlyUnlocked != null)
                 _persistence.SaveAchievements(_achievements);
 
             return newlyUnlocked;
+        }
+
+        /// <summary>
+        /// 格式化成就名称用于通知显示（包含 Emoji）
+        /// </summary>
+        private static string FormatAchievementName(Achievement? a)
+        {
+            if (a == null) return string.Empty;
+            return $"\u2605 {a.Name}";
         }
 
         private bool TryUnlock(string id, Func<bool> condition)

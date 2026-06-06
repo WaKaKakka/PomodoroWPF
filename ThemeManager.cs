@@ -21,8 +21,8 @@ namespace PomodoroWPF
             public string Success { get; set; } = "#10b981";
             public string SuccessDim { get; set; } = "#065f46";
             public string Text { get; set; } = "#fafaf9";
-            public string TextDim { get; set; } = "#57534e";
-            public string TextMuted { get; set; } = "#292524";
+            public string TextDim { get; set; } = "#c8c3bc";
+            public string TextMuted { get; set; } = "#57534e";
         }
 
         public static readonly Dictionary<string, ThemeColors> Themes = new()
@@ -33,7 +33,7 @@ namespace PomodoroWPF
                 Bg = "#000000", Card = "#0a0a0a", CardBorder = "#1a1a1a",
                 Accent = "#f59e0b", AccentGlow = "#fbbf24", AccentDim = "#a16207",
                 Success = "#10b981", SuccessDim = "#065f46",
-                Text = "#fafaf9", TextDim = "#57534e", TextMuted = "#292524",
+                Text = "#fafaf9", TextDim = "#c8c3bc", TextMuted = "#57534e",
             },
             ["dark_blue"] = new ThemeColors
             {
@@ -41,7 +41,7 @@ namespace PomodoroWPF
                 Bg = "#020617", Card = "#0f172a", CardBorder = "#1e293b",
                 Accent = "#3b82f6", AccentGlow = "#60a5fa", AccentDim = "#1d4ed8",
                 Success = "#22d3ee", SuccessDim = "#0e7490",
-                Text = "#f8fafc", TextDim = "#64748b", TextMuted = "#1e293b",
+                Text = "#f8fafc", TextDim = "#b0bec5", TextMuted = "#475569",
             },
             ["dark_green"] = new ThemeColors
             {
@@ -49,7 +49,7 @@ namespace PomodoroWPF
                 Bg = "#022c22", Card = "#064e3b", CardBorder = "#065f46",
                 Accent = "#34d399", AccentGlow = "#6ee7b7", AccentDim = "#059669",
                 Success = "#a3e635", SuccessDim = "#4d7c0f",
-                Text = "#ecfdf5", TextDim = "#6ee7b7", TextMuted = "#064e3b",
+                Text = "#ecfdf5", TextDim = "#bbf7d0", TextMuted = "#047857",
             },
             ["light"] = new ThemeColors
             {
@@ -57,7 +57,7 @@ namespace PomodoroWPF
                 Bg = "#fafafa", Card = "#ffffff", CardBorder = "#e5e7eb",
                 Accent = "#f59e0b", AccentGlow = "#fbbf24", AccentDim = "#d97706",
                 Success = "#10b981", SuccessDim = "#059669",
-                Text = "#111827", TextDim = "#6b7280", TextMuted = "#d1d5db",
+                Text = "#111827", TextDim = "#374151", TextMuted = "#f3f4f6",
             },
         };
 

@@ -38,7 +38,7 @@ namespace PomodoroWPF.Services
             {
                 var task = CurrentTask;
                 if (task == null) return "";
-                return $"\U0001F4CC {task.Name} ({task.PomodoroDisplay})";
+                return $"\u25ba {task.Name} ({task.PomodoroDisplay})";
             }
         }
 
